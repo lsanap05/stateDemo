@@ -1,0 +1,10 @@
+﻿@model stateDemo.tbl_City
+
+<option> --select state--</option>
+@if (ViewBag.CityList != null)
+{
+    foreach (var item in ViewBag.CityList)
+    {
+        <option value="@item.Value">@item.Text</option>
+    }
+}

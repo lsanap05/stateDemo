@@ -1,0 +1,50 @@
+﻿@model stateDemo.Models.CascadingClass
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@if (ViewBag.CountryList != null)
+{
+    @Html.DropDownListFor(m => m.cid, ViewBag.CountryList as SelectList, "-- select Country--", new { @class = "form-controll" })
+
+    @Html.DropDownListFor(m => m.sid, new SelectList(""), "-- select State--", new { @class = "form-controll" })
+   
+    @Html.DropDownListFor(m => m.cityId, new SelectList(""), "-- select City--", new { @class = "form-controll" })
+
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+        $("#cid").change(function () {
+            var countyId = $(this).val();
+            debugger
+            $.ajax({
+                type: "POST",
+                url: "/Cascading/GetStateList?id=" + countyId,
+                contentType: "html",
+                success: function (response) {
+                    $("#sid").empty();
+                    $("#sid").append(response);
+                }
+            })
+        })
+
+        $("#sid").change(function () {
+            var CityId = $(this).val();
+            debugger
+            $.ajax({
+                type: "POST",
+                url: "/Cascading/GetCityList?id=" + CityId,
+                contentType: "html",
+                success: function (response) {
+                    $("#cityId").empty();
+                    $("#cityId").append(response);
+                }
+            })
+        })
+    })
+</script>
